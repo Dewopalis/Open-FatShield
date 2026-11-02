@@ -6,8 +6,8 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from shield_controller import daemon, network
-from shield_controller.config import load_config
+from open_fatshield import daemon, network
+from open_fatshield.config import load_config
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -67,7 +67,7 @@ class CleanupTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             runtime = Path(directory)
             rule = runtime / "rule.conf"
-            rule.write_text("[device-shield-controller]\nmatch-device=interface-name:shield0\nmanaged=0\n")
+            rule.write_text("[device-open-fatshield]\nmatch-device=interface-name:shield0\nmanaged=0\n")
             network.atomic_json(runtime / "ownership.json", {"ap_interface": "shield0", "parent_interface": "wlan0",
                                                              "module": True, "interface": True, "rule": True})
             original_exists = Path.exists
@@ -99,14 +99,14 @@ class PackagingTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             stage = Path(directory)
             installer.stage(stage)
-            executable = stage / "usr/bin/shield-controller"
+            executable = stage / "usr/bin/open-fatshield"
             result = subprocess.run([str(executable), "--version"], check=True, capture_output=True, text=True)
-            self.assertIn("0.1.0-alpha.1", result.stdout)
-            config = stage / "etc/shield-controller/config.json"
+            self.assertIn("0.2.0-alpha.1", result.stdout)
+            config = stage / "etc/open-fatshield/config.json"
             config.write_text('{"interface":"wlan7"}')
             installer.stage(stage)
             self.assertEqual(json.loads(config.read_text())["interface"], "wlan7")
-            source = stage / "usr/src/shield-controller-0.1.0-alpha.1"
+            source = stage / "usr/src/open-fatshield-0.2.0-alpha.1"
             self.assertTrue((source / "packaging/dkms-build.sh").stat().st_mode & 0o111)
             self.assertFalse(list(source.rglob("*.ko")))
             self.assertFalse(list(stage.rglob("*.pcap")))

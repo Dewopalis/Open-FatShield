@@ -41,8 +41,9 @@ need an explicit description and careful testing.
 
 ## Releases
 
-Git tags identify downloadable source snapshots. The initial driver/application
-version is `0.1.0-alpha.1`; the `-r2` snapshot refreshes its documentation and
-project naming without changing the installed version. Release archives include
-source, installer and documentation, with SHA-256 checksums. Kernel-specific
-binary packages are not currently provided.
+Git tags identify downloadable source snapshots. Version `0.2.0-alpha.1` uses
+`open-fatshield` for the installed command and service and includes a migration
+from the original `shield-controller` installation. The earlier `0.1.0-alpha.1-r2`
+snapshot was a documentation refresh of application version `0.1.0-alpha.1`.
+Release archives include source, installer and documentation, with SHA-256
+checksums. Kernel-specific binary packages are not currently provided.

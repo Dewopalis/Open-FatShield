@@ -2,10 +2,10 @@ import json
 from pathlib import Path
 import re
 
-CONFIG_PATH = Path("/etc/shield-controller/config.json")
-RUNTIME = Path("/run/shield-controller")
-STATE = Path("/var/lib/shield-controller")
-RULE = Path("/run/NetworkManager/conf.d/90-shield-controller.conf")
+CONFIG_PATH = Path("/etc/open-fatshield/config.json")
+RUNTIME = Path("/run/open-fatshield")
+STATE = Path("/var/lib/open-fatshield")
+RULE = Path("/run/NetworkManager/conf.d/90-open-fatshield.conf")
 DEFAULTS = {"interface": None, "ap_interface": "shield0"}
 
 

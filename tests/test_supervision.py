@@ -2,7 +2,7 @@ import subprocess
 import sys
 import unittest
 from unittest.mock import MagicMock
-from shield_controller.process_utils import bounded_run, stop_owned_process
+from open_fatshield.process_utils import bounded_run, stop_owned_process
 
 
 class SupervisionTest(unittest.TestCase):

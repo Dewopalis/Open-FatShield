@@ -11,8 +11,9 @@ USB ID `0955:7210`). This controller uses Wi-Fi, rather than Bluetooth.
 volume/mute have been tested wirelessly while normal Wi-Fi remains connected.
 Controller audio input and output have also been confirmed working by the project
 maintainer on the tested setup.
-The installed service has also been tested live. Saved-pairing reconnection and
-boot behavior still need validation.
+The installed service has also been tested live. The rename upgrade preserved
+pairing and the service reported the controller connected again; reboot behavior
+and controller power-cycle reconnection still need validation.
 This is a community project, unaffiliated with NVIDIA.
 
 | Feature | Status |
@@ -22,22 +23,23 @@ This is a community project, unaffiliated with NVIDIA.
 | Desktop volume and mute | Tested with WirePlumber |
 | Controller and normal Wi-Fi together | Tested on Intel iwlwifi, 2.4 GHz |
 | Qt status tray and pairing window | Implemented; offscreen UI check passed |
-| Automatic reconnect and reboot startup | Implemented; live validation pending |
+| Reconnect during the rename upgrade | Observed with saved pairing |
+| Controller power-cycle reconnect and reboot startup | Live validation pending |
 | Controller audio input and output | Tested and working on the maintainer's setup |
 | Rumble | Tested and working on the maintainer's setup |
 
 ## Download
 
-**[Download Open FatShield — source package (.tar.gz)](https://github.com/Dewopalis/Open-FatShield/releases/download/v0.1.0-alpha.1-r2/open-fatshield-0.1.0-alpha.1-r2.tar.gz)**
+**[Download Open FatShield — source package (.tar.gz)](https://github.com/Dewopalis/Open-FatShield/releases/download/v0.2.0-alpha.1/open-fatshield-0.2.0-alpha.1.tar.gz)**
 
-[Release notes](https://github.com/Dewopalis/Open-FatShield/releases/tag/v0.1.0-alpha.1-r2)
-· [SHA-256 checksums](https://github.com/Dewopalis/Open-FatShield/releases/download/v0.1.0-alpha.1-r2/SHA256SUMS)
+[Release notes](https://github.com/Dewopalis/Open-FatShield/releases/tag/v0.2.0-alpha.1)
+· [SHA-256 checksums](https://github.com/Dewopalis/Open-FatShield/releases/download/v0.2.0-alpha.1/SHA256SUMS)
 · [All releases](https://github.com/Dewopalis/Open-FatShield/releases)
 
 This is an experimental **source release**, with an installer that builds the
 driver for your running kernel through DKMS. It is not a prebuilt `.deb`, `.rpm`
-or Arch package. The `r2` download refreshes documentation and project naming;
-the driver and application remain version `0.1.0-alpha.1`.
+or Arch package. Version `0.2.0-alpha.1` renames the installed app and service
+and migrates earlier installations; the underlying kernel driver is unchanged.
 
 ## Requirements
 
@@ -69,8 +71,8 @@ sudo pacman -S --needed python dkms hostapd iw networkmanager wireplumber polkit
 Extract the downloaded package, then enter its directory:
 
 ```sh
-tar -xzf open-fatshield-0.1.0-alpha.1-r2.tar.gz
-cd open-fatshield-0.1.0-alpha.1-r2
+tar -xzf open-fatshield-0.2.0-alpha.1.tar.gz
+cd open-fatshield-0.2.0-alpha.1
 ```
 
 Alternatively, get the source with Git:
@@ -84,9 +86,9 @@ From either source directory, install and pair:
 
 ```sh
 sudo python3 packaging/install.py
-shield-controller doctor
-shield-controller pair
-shield-controller gui
+open-fatshield doctor
+open-fatshield pair
+open-fatshield gui
 ```
 
 Run `doctor`, `pair` and `gui` as your normal desktop user. Pair opens a two-minute
@@ -96,16 +98,17 @@ it flashes. The desktop volume helper starts automatically with this command.
 For automatic startup:
 
 ```sh
-shield-controller enable
+open-fatshield enable
 ```
 
 The system service starts at boot and waits for suitable normal Wi-Fi. The
 desktop volume helper starts when you log in. The controller network's identity
 and password are saved locally, so the controller should reconnect when powered
-on; **reconnection across service restarts/reboots still needs testing**.
+on. Reconnection was observed during the rename upgrade; **controller power-cycle
+reconnection and host reboot startup still need testing**.
 
-The **SHIELD Controller** system tray app starts when you log in. Open it now with
-`shield-controller tray`, or open **SHIELD Controller** from the application menu.
+The **Open FatShield** system tray app starts when you log in. Open it now with
+`open-fatshield tray`, or open **Open FatShield** from the application menu.
 Its icon shows connected (green), ready (blue), waiting (amber), disconnected
 (gray), or a driver fault (red). Click it to open the controller window, or
 right-click for Pair, Connect, Disconnect and automatic startup controls.
@@ -116,14 +119,40 @@ choose Pair for first-time setup. Disconnect stops the controller service.
 Quitting the tray leaves the controller service running. Tray startup at desktop
 login and controller service startup at boot are independent.
 
+## Upgrade from the original installation
+
+Earlier releases installed `shield-controller` and `shield-controller.service`.
+Use the **full** installer from this release to migrate:
+
+```sh
+sudo python3 packaging/install.py
+open-fatshield gui
+```
+
+The installer builds the new module package before stopping the legacy service,
+copies saved pairing and configuration to the new locations, transfers the
+service's enabled/running state, and removes the old command, launchers and DKMS
+registration. A running controller is briefly disconnected during migration;
+normal Wi-Fi stays managed by NetworkManager. Already-existing new configuration
+and pairing files take precedence. Legacy configuration and pairing originals
+remain as backups under `/etc/shield-controller` and `/var/lib/shield-controller`.
+Quit any old tray instance if it does not exit during the update.
+
+`--app-only` cannot migrate an older installation. No compatibility alias is
+installed: use `open-fatshield` for commands and `open-fatshield.service` for
+systemctl/journalctl. Custom service overrides or scripts need updating manually.
+The migration has automated coverage and was tested live: the new service reported
+the controller connected with saved pairing, and the renamed GUI/helper ran.
+Controller power-cycle reconnection and host reboot startup remain untested.
+
 ## Use and troubleshoot
 
 ```sh
-shield-controller status
-shield-controller status --json
-shield-controller logs
-shield-controller stop
-shield-controller disable
+open-fatshield status
+open-fatshield status --json
+open-fatshield logs
+open-fatshield stop
+open-fatshield disable
 ```
 
 If normal Wi-Fi changes channel, the service recreates only its own controller
@@ -136,13 +165,13 @@ desktop helper handles volume keys because some desktops ignore media keys on a
 gamepad. Controller audio input and output have also been tested and work on the
 maintainer's setup. Rumble has also been confirmed working on that setup.
 
-Configuration is `/etc/shield-controller/config.json`. The default automatically
+Configuration is `/etc/open-fatshield/config.json`. The default automatically
 selects a connected Wi-Fi interface and uses `shield0` for the controller. Set
 `"interface": "wlan0"` to choose a specific adapter. Restart the service after edits.
 The service will not reuse an existing `shield0` or a separately loaded `ozwpan`.
 Stop the earlier experimental test before starting it.
 
-Pairing secrets stay in root-only `/var/lib/shield-controller/network.json`.
+Pairing secrets stay in root-only `/var/lib/open-fatshield/network.json`.
 WPS opens only when you choose Pair. No packet captures or raw input logs are
 recorded by the service. Avoid sharing this state file or authentication captures.
 
@@ -152,13 +181,14 @@ To uninstall from the same release directory:
 sudo python3 packaging/install.py --uninstall
 ```
 
-Configuration and saved pairing remain unless you also pass `--purge`.
+Configuration and saved pairing remain unless you also pass `--purge`, which
+also removes legacy configuration/pairing backups.
 Secure Boot may require enrolling a DKMS signing key using your distribution's
 procedure before the module can load.
 
 Report problems on [GitHub Issues](https://github.com/Dewopalis/Open-FatShield/issues).
 Include your controller model, distribution, kernel, Wi-Fi adapter,
-`shield-controller doctor` output and relevant service logs. Remove personal
+`open-fatshield doctor` output and relevant service logs. Remove personal
 network identifiers first.
 
 ## Development
@@ -175,8 +205,8 @@ the application and launchers without rebuilding or restarting the driver. This
 option requires the same driver version to be installed already. Restart the tray
 app after updating it; an already-running instance keeps its previous code.
 
-The project is named Open FatShield; the installed command and service retain the
-name `shield-controller`, and the kernel module is `ozwpan`.
+The command is `open-fatshield`, the system service is `open-fatshield.service`,
+and the kernel module is `ozwpan`.
 
 Contributions and hardware test reports are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md)
 for development checks and the pull request process, or [open an issue](https://github.com/Dewopalis/Open-FatShield/issues/new/choose).

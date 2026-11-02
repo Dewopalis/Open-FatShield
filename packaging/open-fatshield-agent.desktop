@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
-Name=SHIELD Controller Volume Keys
+Name=Open FatShield Volume Keys
 Comment=Handle volume keys from the wireless SHIELD controller
-Exec=shield-controller agent
+Exec=open-fatshield agent
 Icon=input-gaming
 Terminal=false
 NoDisplay=true

@@ -3,10 +3,10 @@ from pathlib import Path
 import sys
 
 prefix = Path(__file__).resolve().parents[1]
-for candidate in (prefix, prefix / "lib/shield-controller", Path("/usr/lib/shield-controller")):
-    if (candidate / "shield_controller").is_dir():
+for candidate in (prefix, prefix / "lib/open-fatshield", Path("/usr/lib/open-fatshield")):
+    if (candidate / "open_fatshield").is_dir():
         sys.path.insert(0, str(candidate))
         break
 
-from shield_controller.cli import main
+from open_fatshield.cli import main
 raise SystemExit(main())

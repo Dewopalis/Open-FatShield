@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
-Name=SHIELD Controller
+Name=Open FatShield
 Comment=Show wireless SHIELD controller status and pairing controls
-Exec=shield-controller tray
+Exec=open-fatshield tray
 Icon=input-gaming
 Terminal=false
 X-GNOME-Autostart-enabled=true

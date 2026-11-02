@@ -65,7 +65,7 @@ def p2p_advertisement(mac):
         raise ValueError("Invalid interface MAC address")
     def attribute(number, value):
         return bytes([number]) + len(value).to_bytes(2, "little") + value
-    name = b"SHIELD Controller Linux"
+    name = b"Open FatShield"
     info = (address + b"\x00\x80" + bytes.fromhex("00010050f2040001") + b"\x00" +
             b"\x10\x11" + len(name).to_bytes(2, "big") + name)
     body = (bytes.fromhex("506f9a09") + attribute(2, b"\x25\x09") + attribute(3, address) +
@@ -80,7 +80,7 @@ def hostapd_config(interface, control, channel, identity):
             "wmm_enabled=1\nauth_algs=1\nwpa=2\nwpa_key_mgmt=WPA-PSK\nrsn_pairwise=CCMP\n"
             f"wpa_passphrase={identity['passphrase']}\n"
             "eap_server=1\nwps_state=2\nap_setup_locked=0\nconfig_methods=push_button\n"
-            "device_name=SHIELD Controller Linux\ndevice_type=1-0050F204-1\n"
+            "device_name=Open FatShield\ndevice_type=1-0050F204-1\n"
             "manufacturer=Linux\nmodel_name=SHIELD-Controller\n"
             f"vendor_elements={p2p_advertisement(identity['mac'])}\n")
 

@@ -23,11 +23,11 @@ setup; rumble has also been confirmed working on that setup.
 
 1. Install matching headers for the **running** kernel, then follow the README.
 2. Connect normal Wi-Fi to a 2.4 GHz network. The service does not change its band.
-3. Run `shield-controller doctor` and `shield-controller status`.
-4. Open `shield-controller gui`, choose Pair, unplug USB and hold the NVIDIA button
+3. Run `open-fatshield doctor` and `open-fatshield status`.
+4. Open `open-fatshield gui`, choose Pair, unplug USB and hold the NVIDIA button
    until it flashes. The WPS window lasts two minutes.
-5. If it fails, inspect `shield-controller logs`. Reading system logs may require
-   `sudo journalctl -u shield-controller.service -n 100 --no-pager` on your distribution.
+5. If it fails, inspect `open-fatshield logs`. Reading system logs may require
+   `sudo journalctl -u open-fatshield.service -n 100 --no-pager` on your distribution.
 
 ## Common questions
 
@@ -39,17 +39,19 @@ Wi-Fi connection. Your adapter must support managed + AP concurrently.
 session may still own those resources. Stop an earlier test or service before
 starting this one. The app avoids taking over somebody else's interface/module.
 
-**Why is there no tray icon?** Install PySide6 and run `shield-controller gui`.
+**Why is there no tray icon?** Install PySide6 and run `open-fatshield gui`.
 On GNOME, a tray extension may be needed; the app also provides a regular window.
-The launcher appears as **SHIELD Controller** in the application menu.
+The launcher appears as **Open FatShield** in the application menu.
 
 **Why do the buttons work but not volume?** The desktop helper needs a logged-in
 user and a working `wpctl get-volume @DEFAULT_AUDIO_SINK@`. Run the app as your
 normal user. Only service-changing actions request administrator authorization.
 
 **Do I need to pair every time?** Credentials are saved locally. Connect starts
-the service with the same network identity. Saved-pairing reconnect and boot
-behavior still need live validation; report what happens on your hardware.
+the service with the same network identity. Reconnect and boot
+behavior need further testing. Reconnection with saved pairing was observed during
+the rename upgrade; controller power-cycle and host reboot behavior remain
+untested. Report what happens on your hardware.
 
 **Does quitting the tray disconnect the controller?** No. Use Disconnect to stop
 the controller service. Quit only closes the tray app. Tray startup at login and
@@ -59,7 +61,7 @@ service startup at boot are separate settings.
 
 Use the [issue forms](https://github.com/Dewopalis/Open-FatShield/issues/new/choose).
 Include the controller model, distro/kernel, Wi-Fi adapter/driver and the result
-of `shield-controller doctor`. Describe what you tried and the observed result.
+of `open-fatshield doctor`. Describe what you tried and the observed result.
 Remove personal network identifiers from logs. Do not upload pairing credentials,
 the saved `network.json` file or authentication captures.
 

@@ -27,5 +27,5 @@ body:
     id: diagnostics
     attributes:
       label: Diagnostics and logs
-      description: Paste shield-controller doctor, status, and relevant service logs. Remove personal network identifiers and credentials. Do not include network.json or authentication captures.
+      description: Paste open-fatshield doctor, status, and relevant service logs. Remove personal network identifiers and credentials. Do not include network.json or authentication captures.
       render: text

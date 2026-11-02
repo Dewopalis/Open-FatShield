@@ -1,5 +1,19 @@
 # Changes
 
+## 0.2.0-alpha.1
+
+* Rename the installed command, service, desktop launchers, Python package, DKMS
+  registration and configuration/state/runtime directories to Open FatShield names.
+* Add a legacy upgrade path that preserves pairing, configuration and the service
+  startup state, and retires the old command, helpers and DKMS registration.
+* Update all current installation, GUI and troubleshooting instructions.
+* Retain the `ozwpan` kernel module and existing controller network identity.
+
+The underlying driver is unchanged. All 28 automated tests pass. Live migration
+installed the renamed DKMS package, retired the legacy command, and started the
+new service with the controller reported connected; the renamed GUI/helper ran.
+Controller power-cycle reconnection and host reboot startup remain untested.
+
 ## Additional hardware validation
 
 The maintainer confirmed controller audio input and output both work on the tested
