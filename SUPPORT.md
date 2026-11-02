@@ -9,6 +9,7 @@
 | Wireless driver | Intel iwlwifi, managed station + AP on the same 2.4 GHz channel |
 | Kernel | 7.3.1 runtime; 6.18.55 LTS compile check only |
 | Controller audio | Input and output tested and working by the maintainer |
+| Rumble | Tested and working by the maintainer |
 | Desktop volume/mute | Tested with WirePlumber `wpctl` |
 | Desktop app | PySide6 Qt tray/window; offscreen smoke test |
 
@@ -16,7 +17,7 @@ This is a small experimental compatibility list, not a guarantee that other
 hardware cannot work. Please submit successful hardware reports as well as bugs.
 The Bluetooth SHIELD Controller (2017) uses a different transport and is outside
 this driver. Controller audio input and output are confirmed working on the tested
-setup; rumble is not validated.
+setup; rumble has also been confirmed working on that setup.
 
 ## First checks
 
