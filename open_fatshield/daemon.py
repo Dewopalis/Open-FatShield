@@ -49,7 +49,7 @@ def recover_owned_resources():
         except Exception as exc:
             errors.append(str(exc))
     if record.get("rule") and RULE.exists():
-        expected = f"[device-shield-controller]\nmatch-device=interface-name:{ap_interface}\nmanaged=0\n"
+        expected = f"[device-open-fatshield]\nmatch-device=interface-name:{ap_interface}\nmanaged=0\n"
         if RULE.read_text() != expected:
             errors.append("Runtime NM rule changed; refusing to delete it")
         else:
@@ -97,7 +97,7 @@ class ControllerDaemon:
                 RULE.parent.mkdir(parents=True, exist_ok=True)
                 with RULE.open("x") as rule:
                     rule_owned = True
-                    rule.write(f"[device-shield-controller]\nmatch-device=interface-name:{ap_interface}\nmanaged=0\n")
+                    rule.write(f"[device-open-fatshield]\nmatch-device=interface-name:{ap_interface}\nmanaged=0\n")
                 ownership["rule"] = True
                 atomic_json(RUNTIME / "ownership.json", ownership)
                 run("nmcli", "general", "reload", "conf")
@@ -126,7 +126,7 @@ class ControllerDaemon:
                     if self.stopping:
                         return
                     if ap.poll() is not None:
-                        raise RuntimeError("Controller AP exited; inspect shield-controller logs")
+                        raise RuntimeError("Controller AP exited; inspect open-fatshield logs")
                     if (control / ap_interface).exists() and "state=ENABLED" in ap_cli("status"):
                         break
                     time.sleep(0.2)

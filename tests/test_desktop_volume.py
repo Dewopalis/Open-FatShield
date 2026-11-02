@@ -4,7 +4,7 @@ import unittest
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from shield_controller.desktop_volume import DesktopVolume, volume_arguments
+from open_fatshield.desktop_volume import DesktopVolume, volume_arguments
 
 
 class DesktopVolumeTest(unittest.TestCase):
@@ -19,9 +19,9 @@ class DesktopVolumeTest(unittest.TestCase):
 
     def test_audio_commands_target_invoking_user_not_root(self):
         with patch.dict("os.environ", {"SUDO_UID": "1000"}), \
-             patch("shield_controller.desktop_volume.os.geteuid", return_value=0), \
-             patch("shield_controller.desktop_volume.pwd.getpwuid") as passwd, \
-             patch("shield_controller.desktop_volume.bounded_run", return_value="Volume: 0.5") as run, \
+             patch("open_fatshield.desktop_volume.os.geteuid", return_value=0), \
+             patch("open_fatshield.desktop_volume.pwd.getpwuid") as passwd, \
+             patch("open_fatshield.desktop_volume.bounded_run", return_value="Volume: 0.5") as run, \
              patch("builtins.print"):
             passwd.return_value.pw_name = "desktop-user"
             handler = DesktopVolume()

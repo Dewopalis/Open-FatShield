@@ -6,7 +6,7 @@ import unittest
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from shield_controller.input_monitor import INPUT_EVENT, InputMonitor, wireless_nodes
+from open_fatshield.input_monitor import INPUT_EVENT, InputMonitor, wireless_nodes
 
 
 DEVICES = '''I: Bus=0003 Vendor=0955 Product=7210 Version=0111
@@ -36,9 +36,9 @@ class InputMonitorTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             logfile = Path(directory) / "events.jsonl"
             monitor = InputMonitor(logfile)
-            with patch("shield_controller.input_monitor.os.open", return_value=333) as opened, \
-                 patch("shield_controller.input_monitor.os.read", side_effect=[packet, BlockingIOError]), \
-                 patch("shield_controller.input_monitor.os.close") as closed, patch("builtins.print"):
+            with patch("open_fatshield.input_monitor.os.open", return_value=333) as opened, \
+                 patch("open_fatshield.input_monitor.os.read", side_effect=[packet, BlockingIOError]), \
+                 patch("open_fatshield.input_monitor.os.close") as closed, patch("builtins.print"):
                 monitor.discover(DEVICES)
                 monitor.poll()
                 monitor.close()

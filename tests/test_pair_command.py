@@ -2,7 +2,7 @@ import subprocess
 import unittest
 from unittest.mock import patch
 
-from shield_controller import cli
+from open_fatshield import cli
 
 
 class PairCommandTest(unittest.TestCase):

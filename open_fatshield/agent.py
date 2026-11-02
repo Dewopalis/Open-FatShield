@@ -12,7 +12,7 @@ def main():
     if os.geteuid() == 0:
         raise SystemExit("Run the desktop agent as your normal desktop user")
     runtime = Path(os.environ.get("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}"))
-    lock = (runtime / "shield-controller-agent.lock").open("w")
+    lock = (runtime / "open-fatshield-agent.lock").open("w")
     try:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except BlockingIOError:

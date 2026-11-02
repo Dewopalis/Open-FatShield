@@ -12,7 +12,7 @@ from .config import RUNTIME, load_config
 from .network import connected_network
 from .process_utils import bounded_run
 
-SERVICE = "shield-controller.service"
+SERVICE = "open-fatshield.service"
 
 
 def run(*args, timeout=20):
@@ -32,7 +32,7 @@ def read_status():
 
 def ensure_agent():
     if os.geteuid() != 0:
-        executable = shutil.which("shield-controller") or str(Path(__file__).parents[1] / "bin/shield-controller")
+        executable = shutil.which("open-fatshield") or str(Path(__file__).parents[1] / "bin/open-fatshield")
         subprocess.Popen([sys.executable, executable, "agent"],
                          stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
 
@@ -40,7 +40,7 @@ def ensure_agent():
 def root_action(action):
     if os.geteuid() != 0:
         ensure_agent()
-        executable = Path("/usr/bin/shield-controller")
+        executable = Path("/usr/bin/open-fatshield")
         if not executable.exists() or executable.stat().st_uid != 0 or executable.stat().st_mode & 0o022:
             raise RuntimeError("Install the root-owned application first with sudo python3 packaging/install.py")
         if not shutil.which("pkexec"):
@@ -51,7 +51,7 @@ def root_action(action):
         return
     if action == "start":
         run("systemctl", "start", SERVICE)
-        print("Controller service started. Use 'shield-controller pair' for first-time pairing.")
+        print("Controller service started. Use 'open-fatshield pair' for first-time pairing.")
     elif action == "stop":
         run("systemctl", "stop", SERVICE, timeout=80)
         print("Controller service stopped; normal Wi-Fi remains managed by NetworkManager.")
@@ -79,7 +79,7 @@ def root_action(action):
             if status["state"] in ("waiting", "kernel_fault"):
                 raise RuntimeError(status["message"])
             time.sleep(0.25)
-        raise RuntimeError("Controller AP is not ready. Check 'shield-controller status' and 'shield-controller logs'.")
+        raise RuntimeError("Controller AP is not ready. Check 'open-fatshield status' and 'open-fatshield logs'.")
 
 
 def doctor():
@@ -106,7 +106,7 @@ def doctor():
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(prog="shield-controller", description="Original SHIELD controller wireless support")
+    parser = argparse.ArgumentParser(prog="open-fatshield", description="Original SHIELD controller wireless support")
     parser.add_argument("--version", action="version", version=__version__)
     parser.add_argument("command", choices=["start", "stop", "pair", "status", "enable", "disable", "doctor", "logs", "gui", "tray", "agent", "daemon", "cleanup"])
     parser.add_argument("--json", action="store_true", help="Machine-readable status")
@@ -136,7 +136,7 @@ def main(argv=None):
             from .tray import main as gui
             gui()
     except (RuntimeError, ValueError, OSError, subprocess.SubprocessError) as exc:
-        print(f"shield-controller: {exc}", file=sys.stderr)
+        print(f"open-fatshield: {exc}", file=sys.stderr)
         output = getattr(exc, "output", None)
         if output:
             print(output, file=sys.stderr)

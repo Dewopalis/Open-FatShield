@@ -4,7 +4,7 @@ import unittest
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from shield_controller.get_input_reports import read_reports
+from open_fatshield.get_input_reports import read_reports
 
 
 class ReportProbeTest(unittest.TestCase):
@@ -17,13 +17,13 @@ class ReportProbeTest(unittest.TestCase):
             seen.append(data[0])
             data[1:3] = b"\x12\x34"
             return 3
-        with patch("shield_controller.get_input_reports.fcntl.ioctl", side_effect=ioctl), patch("builtins.print"):
+        with patch("open_fatshield.get_input_reports.fcntl.ioctl", side_effect=ioctl), patch("builtins.print"):
             results = read_reports(123)
         self.assertEqual(seen, [1, 2])
         self.assertEqual([r["data"] for r in results], ["011234", "021234"])
 
     def test_failed_read_does_not_turn_into_a_write(self):
-        with patch("shield_controller.get_input_reports.fcntl.ioctl", side_effect=OSError("simulated read failure")) as ioctl, \
+        with patch("open_fatshield.get_input_reports.fcntl.ioctl", side_effect=OSError("simulated read failure")) as ioctl, \
              patch("builtins.print"):
             results = read_reports(123)
         self.assertEqual(ioctl.call_count, 2)

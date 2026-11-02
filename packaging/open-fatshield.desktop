@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
-Name=SHIELD Controller
+Name=Open FatShield
 Comment=Pair and manage the original NVIDIA SHIELD controller over Wi-Fi
-Exec=shield-controller gui
+Exec=open-fatshield gui
 Icon=input-gaming
 Terminal=false
 Categories=Settings;HardwareSettings;

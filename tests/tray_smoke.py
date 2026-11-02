@@ -10,7 +10,7 @@ os.environ["QT_QPA_PLATFORM"] = "offscreen"
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from PySide6.QtCore import QByteArray, QProcess
 from PySide6.QtWidgets import QApplication, QLabel, QPushButton, QSystemTrayIcon, QWidget
-from shield_controller import tray
+from open_fatshield import tray
 
 
 def start(process, executable, arguments):
@@ -22,14 +22,14 @@ def inspect(self=None):
     for process in app.findChildren(QProcess):
         if process.property("test_arguments") == ["status", "--json"]:
             process.finished.emit(0, QProcess.ExitStatus.NormalExit)
-    window = next(w for w in app.topLevelWidgets() if w.windowTitle() == "SHIELD Controller")
+    window = next(w for w in app.topLevelWidgets() if w.windowTitle() == "Open FatShield")
     labels = [w.text() for w in window.findChildren(QLabel)]
     assert "Controller connected" in labels, labels
     buttons = {w.text() for w in window.findChildren(QPushButton)}
     assert {"Pair controller", "Connect", "Disconnect"} <= buttons
     window.show()
     app.processEvents()
-    screenshot = Path(os.environ.get("SHIELD_TRAY_SCREENSHOT", "/tmp/shield-controller-tray.png"))
+    screenshot = Path(os.environ.get("SHIELD_TRAY_SCREENSHOT", "/tmp/open-fatshield-tray.png"))
     assert window.grab().save(str(screenshot))
     print("Qt tray/window smoke test passed: " + str(screenshot))
     return 0

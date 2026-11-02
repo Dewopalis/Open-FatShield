@@ -1,5 +1,5 @@
 [Unit]
-Description=Original NVIDIA SHIELD wireless controller
+Description=Open FatShield wireless controller
 After=NetworkManager.service
 Requires=NetworkManager.service
 StartLimitIntervalSec=60
@@ -7,16 +7,16 @@ StartLimitBurst=3
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/shield-controller daemon
-ExecStopPost=/usr/bin/shield-controller cleanup
+ExecStart=/usr/bin/open-fatshield daemon
+ExecStopPost=/usr/bin/open-fatshield cleanup
 Restart=on-failure
 RestartSec=5
 TimeoutStopSec=75
 KillMode=mixed
-RuntimeDirectory=shield-controller
+RuntimeDirectory=open-fatshield
 RuntimeDirectoryMode=0755
 RuntimeDirectoryPreserve=yes
-StateDirectory=shield-controller
+StateDirectory=open-fatshield
 StateDirectoryMode=0700
 UMask=0077
 Environment=PYTHONUNBUFFERED=1

@@ -27,11 +27,11 @@ def main():
     except ImportError:
         raise RuntimeError("Install PySide6 for the system tray: sudo pacman -S pyside6")
     app = QApplication([sys.argv[0]])
-    app.setApplicationName("SHIELD Controller")
+    app.setApplicationName("Open FatShield")
     app.setQuitOnLastWindowClosed(False)
     runtime = Path(os.environ.get("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}"))
-    lock = (runtime / "shield-controller-tray.lock").open("w")
-    server_name = "shield-controller-tray-" + str(os.getuid())
+    lock = (runtime / "open-fatshield-tray.lock").open("w")
+    server_name = "open-fatshield-tray-" + str(os.getuid())
     try:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except BlockingIOError:
@@ -47,7 +47,7 @@ def main():
     if not server.listen(server_name):
         raise RuntimeError("Could not create the tray application socket")
     ensure_agent()
-    executable = "/usr/bin/shield-controller"
+    executable = "/usr/bin/open-fatshield"
 
     def icon(state):
         pixmap = QPixmap(64, 64)
@@ -69,7 +69,7 @@ def main():
         return QIcon(pixmap)
 
     window = QWidget()
-    window.setWindowTitle("SHIELD Controller")
+    window.setWindowTitle("Open FatShield")
     window.setMinimumWidth(390)
     layout = QVBoxLayout(window)
     title = QLabel("Checking controller…")
@@ -169,7 +169,7 @@ def main():
     def failed_to_start(error):
         if error == QProcess.ProcessError.FailedToStart:
             busy(False)
-            message.setText("Could not launch the installed shield-controller command")
+            message.setText("Could not launch the installed open-fatshield command")
             show_window()
     action_process.errorOccurred.connect(failed_to_start)
     pair_action.triggered.connect(lambda: act("pair"))
@@ -196,12 +196,12 @@ def main():
         title.setText(label)
         details.setText(description)
         status_action.setText(label)
-        tray.setToolTip("SHIELD Controller — " + label)
+        tray.setToolTip("Open FatShield — " + label)
         if current_state[0] != state:
             tray.setIcon(icon(state))
             window.setWindowIcon(icon(state))
             if current_state[0] is not None and state == "connected":
-                tray.showMessage("SHIELD Controller", "Controller connected")
+                tray.showMessage("Open FatShield", "Controller connected")
             current_state[0] = state
 
     status_process.finished.connect(update_status)
@@ -215,7 +215,7 @@ def main():
         if status_process.state() == QProcess.ProcessState.NotRunning:
             status_process.start(executable, ["status", "--json"])
         if boot_process.state() == QProcess.ProcessState.NotRunning:
-            boot_process.start("systemctl", ["is-enabled", "--quiet", "shield-controller.service"])
+            boot_process.start("systemctl", ["is-enabled", "--quiet", "open-fatshield.service"])
     timer = QTimer(app)
     timer.setInterval(3000)
     timer.timeout.connect(refresh)
