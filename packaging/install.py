@@ -129,6 +129,7 @@ def stage(destination):
     for name in ("LICENSE", "README.md", "CHANGELOG.md", "SUPPORT.md", "CONTRIBUTING.md", "SECURITY.md"):
         copy(SOURCE / name, target("/usr/share/doc/open-fatshield") / name)
     copy(SOURCE / "docs/design.md", target("/usr/share/doc/open-fatshield/docs/design.md"))
+    copy(SOURCE / "docs/packages.md", target("/usr/share/doc/open-fatshield/docs/packages.md"))
 
 
 def main():
@@ -147,6 +148,8 @@ def main():
         return
     if os.geteuid() != 0:
         parser.error("System installation needs sudo; staging with --destdir does not")
+    if Path("/usr/lib/open-fatshield/package-hooks.py").exists():
+        parser.error("This installation is package-managed. Use your package manager to upgrade or remove it before switching to the source installer.")
     if args.purge and not args.uninstall:
         parser.error("--purge requires --uninstall")
     if args.app_only:

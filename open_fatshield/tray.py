@@ -25,7 +25,7 @@ def main():
                                       QMenu, QPushButton, QSystemTrayIcon,
                                       QVBoxLayout, QWidget)
     except ImportError:
-        raise RuntimeError("Install PySide6 for the system tray: sudo pacman -S pyside6")
+        raise RuntimeError("Install your distribution's PySide6 QtWidgets/QtNetwork packages for the tray; see docs/packages.md")
     app = QApplication([sys.argv[0]])
     app.setApplicationName("Open FatShield")
     app.setQuitOnLastWindowClosed(False)

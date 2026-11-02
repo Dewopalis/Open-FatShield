@@ -2,6 +2,10 @@
 
 ## 0.2.0-alpha.1
 
+* Add GitHub Actions builds for Debian, RPM and Arch installable DKMS/app packages,
+  release uploads, source archives and checksums on matching version tags.
+* Add native package lifecycle hooks and configuration-file preservation.
+
 * Rename the installed command, service, desktop launchers, Python package, DKMS
   registration and configuration/state/runtime directories to Open FatShield names.
 * Add a legacy upgrade path that preserves pairing, configuration and the service

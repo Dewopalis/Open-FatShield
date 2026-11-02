@@ -30,16 +30,18 @@ This is a community project, unaffiliated with NVIDIA.
 
 ## Download
 
-**[Download Open FatShield — source package (.tar.gz)](https://github.com/Dewopalis/Open-FatShield/releases/download/v0.2.0-alpha.1/open-fatshield-0.2.0-alpha.1.tar.gz)**
+**[Download Open FatShield — .deb, .rpm, Arch package or source](https://github.com/Dewopalis/Open-FatShield/releases/tag/v0.2.0-alpha.1)**
 
 [Release notes](https://github.com/Dewopalis/Open-FatShield/releases/tag/v0.2.0-alpha.1)
 · [SHA-256 checksums](https://github.com/Dewopalis/Open-FatShield/releases/download/v0.2.0-alpha.1/SHA256SUMS)
 · [All releases](https://github.com/Dewopalis/Open-FatShield/releases)
 
-This is an experimental **source release**, with an installer that builds the
-driver for your running kernel through DKMS. It is not a prebuilt `.deb`, `.rpm`
-or Arch package. Version `0.2.0-alpha.1` renames the installed app and service
-and migrates earlier installations; the underlying kernel driver is unchanged.
+Releases include installable `.deb`, `.rpm` and Arch `.pkg.tar.zst` packages,
+plus a [source archive](https://github.com/Dewopalis/Open-FatShield/releases/download/v0.2.0-alpha.1/open-fatshield-0.2.0-alpha.1.tar.gz).
+See [package installation instructions](docs/packages.md). Packages include DKMS
+sources: the kernel module is built locally for your running kernel, rather than
+shipping a kernel-specific binary. Version `0.2.0-alpha.1` also renames the app
+and service; the underlying kernel driver is unchanged. This remains an alpha.
 
 ## Requirements
 
@@ -60,6 +62,11 @@ are not yet validated. The 2017 Bluetooth controller is outside this project.
 See [compatibility and troubleshooting](SUPPORT.md) before reporting a problem.
 
 ## Install
+
+For `.deb`, `.rpm` or Arch package installation, use [the package guide](docs/packages.md).
+The following instructions are for the **source installer**. Use one installation
+method at a time; switching methods requires uninstalling the previous one while
+keeping its saved pairing.
 
 On Arch/CachyOS, install prerequisites and the header package matching your running
 kernel (for example `linux-cachyos-headers`):

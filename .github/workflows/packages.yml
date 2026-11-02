@@ -1,0 +1,67 @@
+name: Packages
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  deb-rpm:
+    name: package-${{ matrix.format }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        format: [deb, rpm]
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y dpkg-dev rpm
+      - run: python3 packaging/build_packages.py ${{ matrix.format }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: package-${{ matrix.format }}
+          path: dist/*
+          if-no-files-found: error
+  arch:
+    name: package-arch
+    runs-on: ubuntu-24.04
+    container: archlinux:base-devel
+    steps:
+      - run: pacman -Syu --noconfirm --needed python git base-devel
+      - uses: actions/checkout@v4
+      - name: Build as an unprivileged user
+        run: |
+          useradd --create-home builder
+          chown -R builder:builder "$GITHUB_WORKSPACE"
+          runuser -u builder -- python3 packaging/build_packages.py arch
+      - uses: actions/upload-artifact@v4
+        with:
+          name: package-arch
+          path: dist/*
+          if-no-files-found: error
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [deb-rpm, arch]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: package-*
+          path: dist
+          merge-multiple: true
+      - name: Create source archive and checksums
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          test "$(bin/open-fatshield --version)" = "$version"
+          git archive --format=tar.gz --prefix="open-fatshield-$version/" -o "dist/open-fatshield-$version.tar.gz" HEAD
+          cd dist
+          sha256sum *.deb *.rpm *.pkg.tar.* *.tar.gz > SHA256SUMS
+      - name: Publish release downloads
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/* --verify-tag --prerelease --title "Open FatShield $GITHUB_REF_NAME" --notes-file docs/release-notes.md
