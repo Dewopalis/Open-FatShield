@@ -6,6 +6,9 @@ The maintainer confirmed controller audio input and output both work on the test
 setup. Update the compatibility documentation accordingly. This is a test result,
 with no driver or application code changes.
 
+The maintainer also confirmed rumble works on the tested setup. Update the
+compatibility documentation and release notes; no code changes are needed.
+
 ## 0.1.0-alpha.1-r2 (source package refresh)
 
 * Rename the project documentation to Open FatShield and update repository links.

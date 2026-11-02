@@ -24,7 +24,7 @@ This is a community project, unaffiliated with NVIDIA.
 | Qt status tray and pairing window | Implemented; offscreen UI check passed |
 | Automatic reconnect and reboot startup | Implemented; live validation pending |
 | Controller audio input and output | Tested and working on the maintainer's setup |
-| Rumble | Not validated or claimed supported |
+| Rumble | Tested and working on the maintainer's setup |
 
 ## Download
 
@@ -134,7 +134,7 @@ airtime, so throughput can change. Connection continuity beyond the original
 The driver exposes normal Linux gamepad and mouse input devices. A separate
 desktop helper handles volume keys because some desktops ignore media keys on a
 gamepad. Controller audio input and output have also been tested and work on the
-maintainer's setup. Rumble remains unvalidated.
+maintainer's setup. Rumble has also been confirmed working on that setup.
 
 Configuration is `/etc/shield-controller/config.json`. The default automatically
 selects a connected Wi-Fi interface and uses `shield0` for the controller. Set

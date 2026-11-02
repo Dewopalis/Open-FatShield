@@ -71,6 +71,9 @@ The maintainer subsequently tested controller audio input and output and confirm
 both work on the tested setup. This is a live user test result; the automated tests
 do not exercise audio, and other audio setups remain unvalidated.
 
+The maintainer also confirmed rumble works on the tested setup. This is a live
+user test result; the automated tests do not exercise rumble.
+
 The PySide6 tray app polls status asynchronously, offers Pair/Connect/Disconnect
 and boot controls, and uses the CLI/Polkit boundary for privileged actions.
 Only one tray instance runs per desktop user. Its local activation socket is
