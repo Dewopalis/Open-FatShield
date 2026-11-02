@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=SHIELD Controller Volume Keys
+Comment=Handle volume keys from the wireless SHIELD controller
+Exec=shield-controller agent
+Icon=input-gaming
+Terminal=false
+NoDisplay=true
+X-GNOME-Autostart-enabled=true

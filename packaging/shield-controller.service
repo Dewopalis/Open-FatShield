@@ -1,0 +1,30 @@
+[Unit]
+Description=Original NVIDIA SHIELD wireless controller
+After=NetworkManager.service
+Requires=NetworkManager.service
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/shield-controller daemon
+ExecStopPost=/usr/bin/shield-controller cleanup
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=75
+KillMode=mixed
+RuntimeDirectory=shield-controller
+RuntimeDirectoryMode=0755
+RuntimeDirectoryPreserve=yes
+StateDirectory=shield-controller
+StateDirectoryMode=0700
+UMask=0077
+Environment=PYTHONUNBUFFERED=1
+Environment=PATH=/usr/sbin:/usr/bin:/sbin:/bin
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectHome=yes
+RestrictSUIDSGID=yes
+
+[Install]
+WantedBy=multi-user.target

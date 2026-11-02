@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=SHIELD Controller
+Comment=Pair and manage the original NVIDIA SHIELD controller over Wi-Fi
+Exec=shield-controller gui
+Icon=input-gaming
+Terminal=false
+Categories=Settings;HardwareSettings;
+Keywords=NVIDIA;SHIELD;Gamepad;Controller;

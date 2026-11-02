@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+driver/*.o
+driver/*.ko
+driver/*.mod
+driver/*.mod.c
+driver/.*.cmd
+driver/Module.symvers
+driver/modules.order
+driver/.tmp_versions/
+dist/
+stage/
+*.pcap
+*.pcapng
+*.log
+network.json
