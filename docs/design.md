@@ -67,6 +67,10 @@ pair command timed out despite starting WPS: hostapd's PrivateTmp namespace hid
 the client's reply socket. Both sides now use the shared root-only runtime
 directory via hostapd_cli's `-s` option. A read-only status query verified this fix.
 
+The maintainer subsequently tested controller audio input and output and confirmed
+both work on the tested setup. This is a live user test result; the automated tests
+do not exercise audio, and other audio setups remain unvalidated.
+
 The PySide6 tray app polls status asynchronously, offers Pair/Connect/Disconnect
 and boot controls, and uses the CLI/Polkit boundary for privileged actions.
 Only one tray instance runs per desktop user. Its local activation socket is

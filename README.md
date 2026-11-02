@@ -9,6 +9,8 @@ USB ID `0955:7210`). This controller uses Wi-Fi, rather than Bluetooth.
 
 **Experimental alpha.** Gamepad buttons, sticks, touchpad mouse and desktop
 volume/mute have been tested wirelessly while normal Wi-Fi remains connected.
+Controller audio input and output have also been confirmed working by the project
+maintainer on the tested setup.
 The installed service has also been tested live. Saved-pairing reconnection and
 boot behavior still need validation.
 This is a community project, unaffiliated with NVIDIA.
@@ -21,7 +23,8 @@ This is a community project, unaffiliated with NVIDIA.
 | Controller and normal Wi-Fi together | Tested on Intel iwlwifi, 2.4 GHz |
 | Qt status tray and pairing window | Implemented; offscreen UI check passed |
 | Automatic reconnect and reboot startup | Implemented; live validation pending |
-| Headset/audio streaming and rumble | Not validated or claimed supported |
+| Controller audio input and output | Tested and working on the maintainer's setup |
+| Rumble | Not validated or claimed supported |
 
 ## Download
 
@@ -130,7 +133,8 @@ airtime, so throughput can change. Connection continuity beyond the original
 
 The driver exposes normal Linux gamepad and mouse input devices. A separate
 desktop helper handles volume keys because some desktops ignore media keys on a
-gamepad. There is no audio streaming/headset or rumble support claim.
+gamepad. Controller audio input and output have also been tested and work on the
+maintainer's setup. Rumble remains unvalidated.
 
 Configuration is `/etc/shield-controller/config.json`. The default automatically
 selects a connected Wi-Fi interface and uses `shield0` for the controller. Set

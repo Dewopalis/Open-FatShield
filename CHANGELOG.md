@@ -1,5 +1,11 @@
 # Changes
 
+## Additional hardware validation
+
+The maintainer confirmed controller audio input and output both work on the tested
+setup. Update the compatibility documentation accordingly. This is a test result,
+with no driver or application code changes.
+
 ## 0.1.0-alpha.1-r2 (source package refresh)
 
 * Rename the project documentation to Open FatShield and update repository links.
