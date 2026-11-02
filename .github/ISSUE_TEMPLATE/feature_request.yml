@@ -1,0 +1,17 @@
+name: Feature request
+description: Suggest an improvement to the driver, installer or desktop app.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Suggested behavior
+      description: Describe what you would like the app or driver to do.
+    validations:
+      required: true

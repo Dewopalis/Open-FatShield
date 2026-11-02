@@ -45,8 +45,9 @@ def stage(destination):
             copy(source, dkms / "driver" / source.name)
     copy(SOURCE / "dkms.conf", dkms / "dkms.conf")
     copy(SOURCE / "packaging/dkms-build.sh", dkms / "packaging/dkms-build.sh", executable=True)
-    for name in ("LICENSE", "README.md"):
+    for name in ("LICENSE", "README.md", "CHANGELOG.md", "SUPPORT.md", "CONTRIBUTING.md", "SECURITY.md"):
         copy(SOURCE / name, target("/usr/share/doc/shield-controller") / name)
+    copy(SOURCE / "docs/design.md", target("/usr/share/doc/shield-controller/docs/design.md"))
 
 
 def main():
