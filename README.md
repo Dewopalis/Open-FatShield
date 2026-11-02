@@ -1,6 +1,7 @@
 # Open FatShield
 
 [![Checks](https://github.com/Dewopalis/Open-FatShield/actions/workflows/check.yml/badge.svg)](https://github.com/Dewopalis/Open-FatShield/actions/workflows/check.yml)
+[![Packages](https://github.com/Dewopalis/Open-FatShield/actions/workflows/packages.yml/badge.svg)](https://github.com/Dewopalis/Open-FatShield/actions/workflows/packages.yml)
 [![License: GPL v2](https://img.shields.io/badge/license-GPL--2.0-blue.svg)](LICENSE)
 [![Status: experimental alpha](https://img.shields.io/badge/status-experimental%20alpha-orange.svg)](https://github.com/Dewopalis/Open-FatShield/releases)
 
@@ -9,9 +10,9 @@ USB ID `0955:7210`). This controller uses Wi-Fi, rather than Bluetooth.
 
 **Experimental alpha.** Gamepad buttons, sticks, touchpad mouse and desktop
 volume/mute have been tested wirelessly while normal Wi-Fi remains connected.
-Controller audio input and output have also been confirmed working by the project
-maintainer on the tested setup.
-The installed service has also been tested live. The rename upgrade preserved
+Controller audio input and output, and rumble, have also been confirmed working
+by the project maintainer on the tested setup. The installed service has been
+tested live. The rename upgrade preserved
 pairing and the service reported the controller connected again; reboot behavior
 and controller power-cycle reconnection still need validation.
 This is a community project, unaffiliated with NVIDIA.
