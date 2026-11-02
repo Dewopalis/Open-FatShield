@@ -45,5 +45,6 @@ Git tags identify downloadable source snapshots. Version `0.2.0-alpha.1` uses
 `open-fatshield` for the installed command and service and includes a migration
 from the original `shield-controller` installation. The earlier `0.1.0-alpha.1-r2`
 snapshot was a documentation refresh of application version `0.1.0-alpha.1`.
-Release archives include source, installer and documentation, with SHA-256
-checksums. Kernel-specific binary packages are not currently provided.
+Releases include Debian, RPM and Arch DKMS/app packages, plus source and SHA-256
+checksums. See [the package workflow guide](docs/packages.md) for builds and tag
+publication. Kernel-specific precompiled modules are not provided.
