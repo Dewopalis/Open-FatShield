@@ -65,3 +65,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh release create "$GITHUB_REF_NAME" dist/* --verify-tag --prerelease --title "Open FatShield $GITHUB_REF_NAME" --notes-file docs/release-notes.md
+      - name: Verify published downloads
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download "$GITHUB_REF_NAME" --dir release-verification
+          cd release-verification
+          sha256sum -c SHA256SUMS

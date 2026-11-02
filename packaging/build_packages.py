@@ -55,7 +55,9 @@ Description: Wireless driver and desktop app for the original NVIDIA SHIELD Cont
     write(control / "postinst", f'#!/bin/sh\nset -e\nif [ "$1" = configure ]; then {HOOK} configure; fi\n', True)
     write(control / "prerm", f'#!/bin/sh\nset -e\nif [ "$1" = remove ]; then {HOOK} remove; fi\n', True)
     write(control / "postrm", '#!/bin/sh\nset -e\nif [ -d /run/systemd/system ]; then systemctl daemon-reload; fi\n', True)
-    target = output / f"{NAME}_{version}_all.deb"
+    # GitHub release assets normalize '~' to '.', so keep the local filename
+    # compatible while retaining Debian's prerelease ordering in control/Version.
+    target = output / f"{NAME}_{version.replace('~', '.')}_all.deb"
     subprocess.run(["dpkg-deb", "--build", "--root-owner-group", str(tree), str(target)], check=True)
     subprocess.run(["dpkg-deb", "--info", str(target)], check=True)
 
