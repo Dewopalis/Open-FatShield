@@ -22,11 +22,14 @@ class NativePackageTest(unittest.TestCase):
             work = Path(directory)
             output = work / "out"
             output.mkdir()
-            with patch.object(builder.subprocess, "run"):
+            with patch.object(builder.subprocess, "run") as commands:
                 builder.deb(work, output)
+            archive = Path(commands.call_args_list[0].args[0][-1])
+            self.assertNotIn("~", archive.name)
             control = work / "payload/DEBIAN"
             self.assertEqual((control / "conffiles").read_text(), "/etc/open-fatshield/config.json\n")
             self.assertIn("Architecture: all", (control / "control").read_text())
+            self.assertIn("Version: " + builder.VERSION.replace("-", "~", 1), (control / "control").read_text())
             for name in ("preinst", "postinst", "prerm", "postrm"):
                 subprocess.run(["sh", "-n", str(control / name)], check=True)
                 self.assertEqual((control / name).stat().st_mode & 0o777, 0o755)
