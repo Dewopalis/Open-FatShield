@@ -20,6 +20,7 @@ This is a community project, unaffiliated with NVIDIA.
   authorization. KDialog or Zenity for the optional desktop launcher.
 
 Live testing used CachyOS, an Intel iwlwifi adapter and kernel 7.3.1.
+The driver also builds against 6.18.55 LTS headers; LTS runtime is untested.
 Other adapters, distributions, controller models and multi-controller operation
 are not yet validated. The 2017 Bluetooth controller is outside this project.
 
@@ -35,6 +36,8 @@ sudo pacman -S --needed python dkms hostapd iw networkmanager wireplumber polkit
 From a downloaded release or this repository:
 
 ```sh
+git clone https://github.com/Dewopalis/shield-controller-linux.git
+cd shield-controller-linux
 sudo python3 packaging/install.py
 shield-controller doctor
 shield-controller pair
@@ -97,6 +100,10 @@ sudo python3 packaging/install.py --uninstall
 Configuration and saved pairing remain unless you also pass `--purge`.
 Secure Boot may require enrolling a DKMS signing key using your distribution's
 procedure before the module can load.
+
+Report problems on [GitHub Issues](https://github.com/Dewopalis/shield-controller-linux/issues).
+Include your controller model, distribution, kernel, Wi-Fi adapter, `shield-controller
+doctor` output and relevant service logs. Remove personal network identifiers first.
 
 ## Development
 

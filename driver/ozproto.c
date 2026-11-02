@@ -442,7 +442,7 @@ static void oz_rx_frame(struct sk_buff *skb)
 			}
 			break;
 		case OZ_ELT_FAREWELL_REQ: {
-				struct oz_elt_farewell *body = 
+				struct oz_elt_farewell *body =
 					(struct oz_elt_farewell *)(elt + 1);
 
 				if (!pd || elt->length < sizeof(struct oz_elt_farewell) - 1)
@@ -837,4 +837,3 @@ int oz_get_pd_list(struct oz_mac_addr *addr, int max_count)
 	spin_unlock_bh(&g_polling_lock);
 	return count;
 }
-

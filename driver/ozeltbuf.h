@@ -62,4 +62,3 @@ int oz_select_elts_for_tx(struct oz_elt_buf *buf, u8 isoc, unsigned *len,
 int oz_are_elts_available(struct oz_elt_buf *buf);
 
 #endif /* _OZELTBUF_H */
-

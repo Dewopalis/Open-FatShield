@@ -16,4 +16,3 @@ static inline int oz_forget_urb(struct urb *urb) { return 0; }
 
 
 #endif /* _OZURBPARANOIA_H */
-
