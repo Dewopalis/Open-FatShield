@@ -8,13 +8,15 @@
 | Distribution | CachyOS (Arch based), systemd and NetworkManager |
 | Wireless driver | Intel iwlwifi, managed station + AP on the same 2.4 GHz channel |
 | Kernel | 7.3.1 runtime; 6.18.55 LTS compile check only |
-| Audio | WirePlumber `wpctl` for desktop volume/mute |
+| Controller audio | Input and output tested and working by the maintainer |
+| Desktop volume/mute | Tested with WirePlumber `wpctl` |
 | Desktop app | PySide6 Qt tray/window; offscreen smoke test |
 
 This is a small experimental compatibility list, not a guarantee that other
 hardware cannot work. Please submit successful hardware reports as well as bugs.
 The Bluetooth SHIELD Controller (2017) uses a different transport and is outside
-this driver. Headset/audio streaming and rumble are not validated.
+this driver. Controller audio input and output are confirmed working on the tested
+setup; rumble is not validated.
 
 ## First checks
 
