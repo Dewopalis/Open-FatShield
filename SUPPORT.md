@@ -48,8 +48,10 @@ user and a working `wpctl get-volume @DEFAULT_AUDIO_SINK@`. Run the app as your
 normal user. Only service-changing actions request administrator authorization.
 
 **Do I need to pair every time?** Credentials are saved locally. Connect starts
-the service with the same network identity. Saved-pairing reconnect and boot
-behavior still need live validation; report what happens on your hardware.
+the service with the same network identity. Reconnect and boot
+behavior need further testing. Reconnection with saved pairing was observed during
+the rename upgrade; controller power-cycle and host reboot behavior remain
+untested. Report what happens on your hardware.
 
 **Does quitting the tray disconnect the controller?** No. Use Disconnect to stop
 the controller service. Quit only closes the tray app. Tray startup at login and

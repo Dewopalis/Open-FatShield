@@ -11,8 +11,9 @@ USB ID `0955:7210`). This controller uses Wi-Fi, rather than Bluetooth.
 volume/mute have been tested wirelessly while normal Wi-Fi remains connected.
 Controller audio input and output have also been confirmed working by the project
 maintainer on the tested setup.
-The installed service has also been tested live. Saved-pairing reconnection and
-boot behavior still need validation.
+The installed service has also been tested live. The rename upgrade preserved
+pairing and the service reported the controller connected again; reboot behavior
+and controller power-cycle reconnection still need validation.
 This is a community project, unaffiliated with NVIDIA.
 
 | Feature | Status |
@@ -22,7 +23,8 @@ This is a community project, unaffiliated with NVIDIA.
 | Desktop volume and mute | Tested with WirePlumber |
 | Controller and normal Wi-Fi together | Tested on Intel iwlwifi, 2.4 GHz |
 | Qt status tray and pairing window | Implemented; offscreen UI check passed |
-| Automatic reconnect and reboot startup | Implemented; live validation pending |
+| Reconnect during the rename upgrade | Observed with saved pairing |
+| Controller power-cycle reconnect and reboot startup | Live validation pending |
 | Controller audio input and output | Tested and working on the maintainer's setup |
 | Rumble | Tested and working on the maintainer's setup |
 
@@ -102,7 +104,8 @@ open-fatshield enable
 The system service starts at boot and waits for suitable normal Wi-Fi. The
 desktop volume helper starts when you log in. The controller network's identity
 and password are saved locally, so the controller should reconnect when powered
-on; **reconnection across service restarts/reboots still needs testing**.
+on. Reconnection was observed during the rename upgrade; **controller power-cycle
+reconnection and host reboot startup still need testing**.
 
 The **Open FatShield** system tray app starts when you log in. Open it now with
 `open-fatshield tray`, or open **Open FatShield** from the application menu.
@@ -138,7 +141,9 @@ Quit any old tray instance if it does not exit during the update.
 `--app-only` cannot migrate an older installation. No compatibility alias is
 installed: use `open-fatshield` for commands and `open-fatshield.service` for
 systemctl/journalctl. Custom service overrides or scripts need updating manually.
-The migration has automated coverage; live upgrade and reconnect still need testing.
+The migration has automated coverage and was tested live: the new service reported
+the controller connected with saved pairing, and the renamed GUI/helper ran.
+Controller power-cycle reconnection and host reboot startup remain untested.
 
 ## Use and troubleshoot
 

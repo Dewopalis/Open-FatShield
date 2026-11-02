@@ -9,8 +9,10 @@
 * Update all current installation, GUI and troubleshooting instructions.
 * Retain the `ozwpan` kernel module and existing controller network identity.
 
-The underlying driver is unchanged. Migration has automated coverage; live upgrade
-and reconnect still need testing.
+The underlying driver is unchanged. All 28 automated tests pass. Live migration
+installed the renamed DKMS package, retired the legacy command, and started the
+new service with the controller reported connected; the renamed GUI/helper ran.
+Controller power-cycle reconnection and host reboot startup remain untested.
 
 ## Additional hardware validation
 

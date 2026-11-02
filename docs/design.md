@@ -9,7 +9,8 @@ The root system service creates `shield0`, temporarily marks only that interface
 unmanaged in NetworkManager, starts hostapd with the SHIELD-compatible P2P vendor
 advertisement, and loads `ozwpan`. It saves a random SSID/password and the AP MAC
 locally. Pair explicitly opens WPS push-button enrollment. Credential persistence
-is implemented; reconnect and boot behavior require live validation.
+is implemented. Saved-pairing reconnect was observed during the rename upgrade;
+controller power-cycle and host reboot behavior require live validation.
 
 An ownership record and bounded subprocess waits allow cleanup after failures.
 The service checks normal Wi-Fi's connection UUID, BSSID and channel and removes
@@ -102,5 +103,9 @@ owned resources must be cleaned up before replacement. Legacy installed desktop
 helpers are terminated to avoid handling volume events twice. Old DKMS
 registrations and launchers are removed, and the previous enabled/active service
 state is transferred to the new name. Existing new configuration/state wins over
-legacy backups. No legacy command alias is installed. Live migration/reconnect
-validation remains pending.
+legacy backups. No legacy command alias is installed.
+
+Live upgrade installed the renamed 0.2.0-alpha.1 DKMS package, removed the old
+command/registration and started the new service, which reported the controller
+connected with saved pairing. The renamed GUI and desktop helper were observed
+running. Host reboot and controller power-cycle behavior remain untested.
