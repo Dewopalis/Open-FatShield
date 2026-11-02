@@ -118,7 +118,7 @@ class ControllerDaemon:
                 # No debug/key-dump flags; normal hostapd events go to the journal.
                 ap = subprocess.Popen(["hostapd", "-t", str(config_path)])
                 def ap_cli(*arguments):
-                    output = run("hostapd_cli", "-p", str(control), "-i", ap_interface, *arguments)
+                    output = run("hostapd_cli", "-s", str(control), "-p", str(control), "-i", ap_interface, *arguments)
                     if "FAIL" in output:
                         raise RuntimeError(f"Controller AP command {arguments[0]} failed")
                     return output

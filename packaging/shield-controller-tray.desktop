@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=SHIELD Controller
+Comment=Show wireless SHIELD controller status and pairing controls
+Exec=shield-controller tray
+Icon=input-gaming
+Terminal=false
+X-GNOME-Autostart-enabled=true

@@ -68,9 +68,12 @@ def root_action(action):
             status = read_status()
             if status["state"] in ("ready", "connected"):
                 interface = load_config()["ap_interface"]
-                output = run("hostapd_cli", "-p", str(RUNTIME / "hostapd"), "-i", interface, "wps_pbc")
+                control = str(RUNTIME / "hostapd")
+                # Replies must use /run: hostapd's PrivateTmp namespace cannot
+                # see a client socket created in an external command's /tmp.
+                output = run("hostapd_cli", "-s", control, "-p", control, "-i", interface, "wps_pbc")
                 if "OK" not in output or "FAIL" in output:
-                    raise RuntimeError("Could not start pairing; inspect shield-controller logs")
+                    raise RuntimeError("Could not start pairing: " + output)
                 print("Pairing is open for two minutes. Unplug USB, then hold NVIDIA until it flashes.")
                 return
             if status["state"] in ("waiting", "kernel_fault"):
@@ -105,7 +108,7 @@ def doctor():
 def main(argv=None):
     parser = argparse.ArgumentParser(prog="shield-controller", description="Original SHIELD controller wireless support")
     parser.add_argument("--version", action="version", version=__version__)
-    parser.add_argument("command", choices=["start", "stop", "pair", "status", "enable", "disable", "doctor", "logs", "gui", "agent", "daemon", "cleanup"])
+    parser.add_argument("command", choices=["start", "stop", "pair", "status", "enable", "disable", "doctor", "logs", "gui", "tray", "agent", "daemon", "cleanup"])
     parser.add_argument("--json", action="store_true", help="Machine-readable status")
     args = parser.parse_args(argv)
     try:
@@ -129,8 +132,8 @@ def main(argv=None):
         elif args.command == "agent":
             from .agent import main as agent
             agent()
-        elif args.command == "gui":
-            from .gui import main as gui
+        elif args.command in ("gui", "tray"):
+            from .tray import main as gui
             gui()
     except (RuntimeError, ValueError, OSError, subprocess.SubprocessError) as exc:
         print(f"shield-controller: {exc}", file=sys.stderr)

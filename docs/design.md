@@ -61,9 +61,21 @@ concurrent test recorded 1,286 button/axis/mouse events, working desktop volume,
 and normal Wi-Fi remaining on its original connection. These tests used a
 temporary transport script, before packaging the service.
 
+The installed DKMS module and system service subsequently paired the controller
+and received live input while normal Wi-Fi stayed connected. An initial external
+pair command timed out despite starting WPS: hostapd's PrivateTmp namespace hid
+the client's reply socket. Both sides now use the shared root-only runtime
+directory via hostapd_cli's `-s` option. A read-only status query verified this fix.
+
+The PySide6 tray app polls status asynchronously, offers Pair/Connect/Disconnect
+and boot controls, and uses the CLI/Polkit boundary for privileged actions.
+Only one tray instance runs per desktop user. Its local activation socket is
+restricted to that user. The controller service remains independent of the tray.
+
 Automated tests exercise the real descriptor callback, request serializer and
 touchpad transform with AddressSanitizer/UndefinedBehaviorSanitizer harnesses,
 plus report reads, media mapping, network/config validation, process timeouts,
-owned-resource recovery and staged installation. They do not substitute for live
-service, reboot, reconnect, roaming or long-duration tests. The restored kernel
+owned-resource recovery and staged installation. The optional Qt smoke test checks
+the connected-state window offscreen. These do not substitute for live desktop
+interaction, reboot, reconnect, roaming or long-duration tests. The restored kernel
 driver has not received a complete security audit. Use this as experimental code.

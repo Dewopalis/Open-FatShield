@@ -14,6 +14,7 @@ FILES = {
     "packaging/shield-controller.service": "/usr/lib/systemd/system/shield-controller.service",
     "packaging/shield-controller.desktop": "/usr/share/applications/shield-controller.desktop",
     "packaging/shield-controller-agent.desktop": "/etc/xdg/autostart/shield-controller-agent.desktop",
+    "packaging/shield-controller-tray.desktop": "/etc/xdg/autostart/shield-controller-tray.desktop",
     "packaging/70-shield-controller.rules": "/usr/lib/udev/rules.d/70-shield-controller.rules",
 }
 
@@ -52,11 +53,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--destdir", type=Path, help="Stage files only; do not build or activate anything")
     parser.add_argument("--enable", action="store_true", help="Start the service and enable it at boot")
+    parser.add_argument("--app-only", action="store_true", help="Refresh application files without rebuilding or restarting the installed driver")
     parser.add_argument("--uninstall", action="store_true")
     parser.add_argument("--purge", action="store_true", help="Also delete saved pairing/configuration during uninstall")
     args = parser.parse_args()
     if args.destdir:
-        if args.uninstall or args.enable or args.purge:
+        if args.uninstall or args.enable or args.purge or args.app_only:
             parser.error("--destdir cannot be combined with activation or uninstall")
         stage(args.destdir.resolve())
         print("Package staged; no system configuration was changed.")
@@ -65,6 +67,17 @@ def main():
         parser.error("System installation needs sudo; staging with --destdir does not")
     if args.purge and not args.uninstall:
         parser.error("--purge requires --uninstall")
+    if args.app_only:
+        if args.enable or args.uninstall or args.purge:
+            parser.error("--app-only cannot be combined with other actions")
+        if not Path(f"/var/lib/dkms/{PACKAGE}/{VERSION}").is_dir():
+            parser.error("Install the full package before using --app-only")
+        stage(Path("/"))
+        command("systemctl", "daemon-reload")
+        command("udevadm", "control", "--reload-rules")
+        print("Application updated; the running driver was left connected.")
+        print("As your normal user, run: shield-controller gui")
+        return
     if args.uninstall:
         command("systemctl", "disable", "--now", "shield-controller.service")
         command("dkms", "remove", f"{PACKAGE}/{VERSION}", "--all")

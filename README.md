@@ -5,7 +5,8 @@ USB ID `0955:7210`). This controller uses Wi-Fi, rather than Bluetooth.
 
 **Experimental alpha.** Gamepad buttons, sticks, touchpad mouse and desktop
 volume/mute have been tested wirelessly while normal Wi-Fi remains connected.
-The new installer, boot service and saved-pairing reconnection need live validation.
+The installed service has also been tested live. Saved-pairing reconnection and
+boot behavior still need validation.
 This is a community project, unaffiliated with NVIDIA.
 
 ## Requirements
@@ -17,7 +18,8 @@ This is a community project, unaffiliated with NVIDIA.
 * Python 3.10+, hostapd with WPS support, iw, DKMS, make and matching kernel headers.
   Use Clang/LLVM for a kernel built with Clang; otherwise use GCC.
 * WirePlumber (`wpctl`) for desktop volume controls. Polkit (`pkexec`) for graphical
-  authorization. KDialog or Zenity for the optional desktop launcher.
+  authorization. PySide6 and a system tray for the desktop app (KDE supported;
+  GNOME requires a tray extension, or use the app window).
 
 Live testing used CachyOS, an Intel iwlwifi adapter and kernel 7.3.1.
 The driver also builds against 6.18.55 LTS headers; LTS runtime is untested.
@@ -30,7 +32,7 @@ On Arch/CachyOS, install prerequisites and the header package matching your runn
 kernel (for example `linux-cachyos-headers`):
 
 ```sh
-sudo pacman -S --needed python dkms hostapd iw networkmanager wireplumber polkit kdialog base-devel clang llvm
+sudo pacman -S --needed python dkms hostapd iw networkmanager wireplumber polkit pyside6 base-devel clang llvm
 ```
 
 From a downloaded release or this repository:
@@ -58,9 +60,17 @@ desktop volume helper starts when you log in. The controller network's identity
 and password are saved locally, so the controller should reconnect when powered
 on; **reconnection across service restarts/reboots still needs testing**.
 
-You can also open **SHIELD Controller** from the application menu. It provides
-Start, Stop, Pair, and automatic startup controls, with administrator authorization
-when needed. This is a small menu app, without a tray icon.
+The **SHIELD Controller** system tray app starts when you log in. Open it now with
+`shield-controller tray`, or open **SHIELD Controller** from the application menu.
+Its icon shows connected (green), ready (blue), waiting (amber), disconnected
+(gray), or a driver fault (red). Click it to open the controller window, or
+right-click for Pair, Connect, Disconnect and automatic startup controls.
+Administrator authorization is requested when changing the system service.
+
+Connect starts the service and allows a previously paired controller to reconnect;
+choose Pair for first-time setup. Disconnect stops the controller service.
+Quitting the tray leaves the controller service running. Tray startup at desktop
+login and controller service startup at boot are independent.
 
 ## Use and troubleshoot
 
@@ -114,6 +124,8 @@ python3 packaging/install.py --destdir /tmp/shield-package
 ```
 
 The staging command copies package files without root privileges or system changes.
+After a full installation, `sudo python3 packaging/install.py --app-only` refreshes
+the application and launchers without rebuilding or restarting the driver.
 DKMS rebuilds the module for kernel updates; kernel API compatibility still needs
 checking. See [design and provenance](docs/design.md) for the driver changes,
 protocol findings and test boundaries.
