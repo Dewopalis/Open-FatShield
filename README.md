@@ -1,4 +1,8 @@
-# SHIELD Controller Linux
+# Open FatShield
+
+[![Checks](https://github.com/Dewopalis/Open-FatShield/actions/workflows/check.yml/badge.svg)](https://github.com/Dewopalis/Open-FatShield/actions/workflows/check.yml)
+[![License: GPL v2](https://img.shields.io/badge/license-GPL--2.0-blue.svg)](LICENSE)
+[![Status: experimental alpha](https://img.shields.io/badge/status-experimental%20alpha-orange.svg)](https://github.com/Dewopalis/Open-FatShield/releases)
 
 Wireless Linux support for the original NVIDIA SHIELD Controller (2014/2015,
 USB ID `0955:7210`). This controller uses Wi-Fi, rather than Bluetooth.
@@ -8,6 +12,29 @@ volume/mute have been tested wirelessly while normal Wi-Fi remains connected.
 The installed service has also been tested live. Saved-pairing reconnection and
 boot behavior still need validation.
 This is a community project, unaffiliated with NVIDIA.
+
+| Feature | Status |
+| --- | --- |
+| Buttons, D-pad, sticks and shoulder controls | Tested wirelessly |
+| Touchpad mouse | Tested wirelessly |
+| Desktop volume and mute | Tested with WirePlumber |
+| Controller and normal Wi-Fi together | Tested on Intel iwlwifi, 2.4 GHz |
+| Qt status tray and pairing window | Implemented; offscreen UI check passed |
+| Automatic reconnect and reboot startup | Implemented; live validation pending |
+| Headset/audio streaming and rumble | Not validated or claimed supported |
+
+## Download
+
+**[Download Open FatShield — source package (.tar.gz)](https://github.com/Dewopalis/Open-FatShield/releases/download/v0.1.0-alpha.1-r2/open-fatshield-0.1.0-alpha.1-r2.tar.gz)**
+
+[Release notes](https://github.com/Dewopalis/Open-FatShield/releases/tag/v0.1.0-alpha.1-r2)
+· [SHA-256 checksums](https://github.com/Dewopalis/Open-FatShield/releases/download/v0.1.0-alpha.1-r2/SHA256SUMS)
+· [All releases](https://github.com/Dewopalis/Open-FatShield/releases)
+
+This is an experimental **source release**, with an installer that builds the
+driver for your running kernel through DKMS. It is not a prebuilt `.deb`, `.rpm`
+or Arch package. The `r2` download refreshes documentation and project naming;
+the driver and application remain version `0.1.0-alpha.1`.
 
 ## Requirements
 
@@ -25,6 +52,7 @@ Live testing used CachyOS, an Intel iwlwifi adapter and kernel 7.3.1.
 The driver also builds against 6.18.55 LTS headers; LTS runtime is untested.
 Other adapters, distributions, controller models and multi-controller operation
 are not yet validated. The 2017 Bluetooth controller is outside this project.
+See [compatibility and troubleshooting](SUPPORT.md) before reporting a problem.
 
 ## Install
 
@@ -35,17 +63,30 @@ kernel (for example `linux-cachyos-headers`):
 sudo pacman -S --needed python dkms hostapd iw networkmanager wireplumber polkit pyside6 base-devel clang llvm
 ```
 
-From a downloaded release or this repository:
+Extract the downloaded package, then enter its directory:
 
 ```sh
-git clone https://github.com/Dewopalis/shield-controller-linux.git
-cd shield-controller-linux
+tar -xzf open-fatshield-0.1.0-alpha.1-r2.tar.gz
+cd open-fatshield-0.1.0-alpha.1-r2
+```
+
+Alternatively, get the source with Git:
+
+```sh
+git clone https://github.com/Dewopalis/Open-FatShield.git open-fatshield
+cd open-fatshield
+```
+
+From either source directory, install and pair:
+
+```sh
 sudo python3 packaging/install.py
 shield-controller doctor
 shield-controller pair
+shield-controller gui
 ```
 
-Run the last two commands as your normal desktop user. Pair opens a two-minute
+Run `doctor`, `pair` and `gui` as your normal desktop user. Pair opens a two-minute
 WPS window. Unplug the controller's USB cable and hold the NVIDIA button until
 it flashes. The desktop volume helper starts automatically with this command.
 
@@ -111,9 +152,10 @@ Configuration and saved pairing remain unless you also pass `--purge`.
 Secure Boot may require enrolling a DKMS signing key using your distribution's
 procedure before the module can load.
 
-Report problems on [GitHub Issues](https://github.com/Dewopalis/shield-controller-linux/issues).
-Include your controller model, distribution, kernel, Wi-Fi adapter, `shield-controller
-doctor` output and relevant service logs. Remove personal network identifiers first.
+Report problems on [GitHub Issues](https://github.com/Dewopalis/Open-FatShield/issues).
+Include your controller model, distribution, kernel, Wi-Fi adapter,
+`shield-controller doctor` output and relevant service logs. Remove personal
+network identifiers first.
 
 ## Development
 
@@ -125,7 +167,15 @@ python3 packaging/install.py --destdir /tmp/shield-package
 
 The staging command copies package files without root privileges or system changes.
 After a full installation, `sudo python3 packaging/install.py --app-only` refreshes
-the application and launchers without rebuilding or restarting the driver.
+the application and launchers without rebuilding or restarting the driver. This
+option requires the same driver version to be installed already. Restart the tray
+app after updating it; an already-running instance keeps its previous code.
+
+The project is named Open FatShield; the installed command and service retain the
+name `shield-controller`, and the kernel module is `ozwpan`.
+
+Contributions and hardware test reports are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md)
+for development checks and the pull request process, or [open an issue](https://github.com/Dewopalis/Open-FatShield/issues/new/choose).
 DKMS rebuilds the module for kernel updates; kernel API compatibility still needs
 checking. See [design and provenance](docs/design.md) for the driver changes,
 protocol findings and test boundaries.

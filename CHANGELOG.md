@@ -1,5 +1,16 @@
 # Changes
 
+## 0.1.0-alpha.1-r2 (source package refresh)
+
+* Rename the project documentation to Open FatShield and update repository links.
+* Add direct source download, release notes and SHA-256 checksum links.
+* Separate archive and Git installation instructions and document GUI startup.
+* Clarify source-package requirements and application-only update behavior.
+* Bundle support, contribution, security and design documentation with installation.
+* Add issue forms, a pull request template and project status/compatibility guidance.
+
+Driver/application version remains `0.1.0-alpha.1`; no driver or application runtime changes.
+
 ## 0.1.0-alpha.1
 
 * Package the modernized OZWPAN driver as DKMS sources.

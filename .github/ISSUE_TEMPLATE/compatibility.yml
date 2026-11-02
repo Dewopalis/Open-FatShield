@@ -1,0 +1,18 @@
+name: Hardware compatibility report
+description: Share a successful test or a new controller/Wi-Fi adapter combination.
+labels: [compatibility]
+body:
+  - type: textarea
+    id: setup
+    attributes:
+      label: Hardware and software
+      description: Controller model/USB ID, Wi-Fi adapter/driver, distribution/kernel, desktop and project version.
+    validations:
+      required: true
+  - type: textarea
+    id: results
+    attributes:
+      label: What did you test?
+      description: Describe pairing, buttons/sticks, touchpad, volume, normal Wi-Fi, reconnect/reboot, and duration. Distinguish untested features.
+    validations:
+      required: true

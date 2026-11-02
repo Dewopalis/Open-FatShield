@@ -1,0 +1,31 @@
+name: Bug report or help request
+description: Report installation, pairing, input, Wi-Fi or desktop app problems.
+labels: [bug]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the expected result and the actual result.
+    validations:
+      required: true
+  - type: textarea
+    id: hardware
+    attributes:
+      label: Your setup
+      description: Controller model, Linux distribution/kernel, Wi-Fi adapter/driver, desktop, and Open FatShield version.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include the command or GUI action used, whether USB was unplugged, and the controller light behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics and logs
+      description: Paste shield-controller doctor, status, and relevant service logs. Remove personal network identifiers and credentials. Do not include network.json or authentication captures.
+      render: text
