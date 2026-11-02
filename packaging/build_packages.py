@@ -70,9 +70,13 @@ def rpm(work, output):
         (top / name).mkdir(parents=True)
     file_list = []
     for path in sorted(tree.rglob("*")):
+        relative = "/" + path.relative_to(tree).as_posix()
+        owned = ("/usr/lib/open-fatshield", "/usr/share/doc/open-fatshield",
+                 f"/usr/src/open-fatshield-{VERSION}", "/etc/open-fatshield")
+        if path.is_dir() and any(relative == prefix or relative.startswith(prefix + "/") for prefix in owned):
+            file_list.append("%dir " + relative)
         if not path.is_file():
             continue
-        relative = "/" + path.relative_to(tree).as_posix()
         prefix = "%config(noreplace) " if relative == "/etc/open-fatshield/config.json" else ""
         prefix = "%license " if relative.endswith("/LICENSE") else prefix
         file_list.append(prefix + relative)
